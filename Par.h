@@ -1,33 +1,36 @@
-#include "Tim.h"
 #pragma once
+#include<iostream>
+using namespace std;
 #ifndef _PAR_H_
 #define _PAR_H_
-template <typename T, typename P>
-class Par {
-	T* p1;
-	P* p2;
 
+template<typename D,typename G>
+class Par {
+	D* domacin;
+	G* gost;
 public:
-	void setP1(T v) { p1 = &v; };
-	void setP2(P h) { p2 = &h; };
-	T* getP1()const { return p1; };
-	P* getP2()const { return p2; };
-	bool operator==(Par& par2);
+	Par(D* d, G* g) { domacin = d; gost = g; }
+	Par(D d, G g) { domacin = &d; gost = &g; }
+	D& getDomaciTim()  { return *domacin; }
+	G& getGostujuciTim() { return *gost; }
+	void setDomaciTim( D* d) { domacin = d; }
+	void setGostujuciTim( G* g) { gost = g; }
+	bool operator==(Par& p2);
+	//ostream& operator<<(ostream& it, Par& p2);
+	//friend ostream& operator<<(ostream& it, Par& p);
 };
 
-template <typename T, typename P>
-ostream& operator<<(ostream& it, Par<T, P>& p)
-{
-	it << *(p.getP1()) << " - " << *(p.getP2());
-	return it;
-}
+#endif // !_PAR_H_
 
-template<typename T, typename P>
-inline bool Par<T, P>::operator==(Par& par2)
+template<typename D, typename G>
+inline bool Par<D, G>::operator==(Par<D,G>& p2)
 {
-	if ((getP1() == par2.getP1()) && (getP2() == par2.getP2()))
-		return true;
+	if ((this->domacin == p2.domacin) && (this->gost == p2.gost)) return true;
 	return false;
 }
-
-#endif//!_PAR_H_
+template<typename D, typename G>
+ostream& operator<<(ostream& it,Par<D,G>& p)
+{
+	it << "[" << p.getDomaciTim() << "-" << p.getGostujuciTim() << "]";
+	return it;
+}
